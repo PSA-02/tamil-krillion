@@ -1,26 +1,11 @@
-import type { Answer, Prompt, TierId } from './types'
-
-const C: TierId = 'common'
-const U: TierId = 'uncommon'
-const R: TierId = 'rare'
-const D: TierId = 'deep'
-const K: TierId = 'krillion'
-
-/** Builds an answer. Extra strings are romanised aliases. */
-function a(ta: string, en: string, tier: TierId, ...aliases: string[]): Answer {
-  return { ta, en, tier, aliases }
-}
-
-/** Adds Tamil-script alternative spellings to an answer. */
-function withTa(answer: Answer, ...taAliases: string[]): Answer {
-  return { ...answer, taAliases }
-}
+import type { Prompt } from '../types'
+import { C, D, K, R, U, a, withTa } from './helpers'
 
 /**
  * Rarity tiers are hand-curated: they estimate how few players would think
  * of an answer, not how obscure the thing itself is.
  */
-export const PROMPTS: Prompt[] = [
+export const CORE_PROMPTS: Prompt[] = [
   {
     id: 'districts',
     ta: 'தமிழ்நாட்டின் ஒரு மாவட்டத்தின் பெயரைச் சொல்லுங்கள்',
@@ -383,7 +368,3 @@ export const PROMPTS: Prompt[] = [
     ],
   },
 ]
-
-export const PROMPTS_BY_ID: Record<string, Prompt> = Object.fromEntries(
-  PROMPTS.map((p) => [p.id, p]),
-)

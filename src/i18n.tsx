@@ -2,7 +2,7 @@ import { createContext, useContext, type ReactNode } from 'react'
 
 export type Lang = 'ta' | 'en'
 
-const STRINGS = {
+export const STRINGS = {
   title: { ta: 'கிரில்லியன் தமிழ்', en: 'Krillion Tamil' },
   tagline: {
     ta: 'சரியான பதில் போதாது. அரிதான பதிலே ஆழத்துக்குக் கொண்டு செல்லும்.',
@@ -64,6 +64,69 @@ const STRINGS = {
     ta: 'Krillion விளையாட்டால் ஈர்க்கப்பட்ட ரசிகர் திட்டம்.',
     en: 'A fan project inspired by the game Krillion.',
   },
+  tagline2: {
+    ta: 'மெரினாவிலிருந்து வங்கக் கடலுக்குள் மூழ்குங்கள்.',
+    en: 'Dive from Marina Beach into the Bay of Bengal.',
+  },
+  sound: { ta: 'ஒலி', en: 'Sound' },
+  soundOn: { ta: 'ஒலியை நிறுத்து', en: 'Mute sound' },
+  soundOff: { ta: 'ஒலியை இயக்கு', en: 'Turn sound on' },
+  categories: { ta: 'வகைகள்', en: 'categories' },
+  answersCount: { ta: 'பதில்கள்', en: 'answers' },
+  secrets: { ta: 'ரகசியங்கள்', en: 'Secrets found' },
+  secretsHint: {
+    ta: 'கடற்கரையில் சில ரகசியங்கள் ஒளிந்துள்ளன…',
+    en: 'A few secrets are hidden on the beach…',
+  },
+  friends: { ta: 'நண்பருடன் போட்டி', en: 'Friend duel' },
+  friendsEmpty: {
+    ta: 'இன்றைய மூழ்கலை முடித்து, ஒரு நண்பருக்குச் சவால் இணைப்பை அனுப்புங்கள்.',
+    en: "Finish today's dive, then send a friend your challenge link.",
+  },
+  you: { ta: 'நீங்கள்', en: 'You' },
+  wins: { ta: 'வெற்றி', en: 'Wins' },
+  draws: { ta: 'சமன்', en: 'Draws' },
+  totalDepth: { ta: 'மொத்த ஆழம்', en: 'Total depth' },
+  bestDepth: { ta: 'சிறந்த ஆழம்', en: 'Best' },
+  recentDuels: { ta: 'சமீபத்திய மோதல்கள்', en: 'Recent duels' },
+  waiting: { ta: 'காத்திருக்கிறது', en: 'waiting' },
+  challenge: { ta: 'நண்பருக்குச் சவால் விடு', en: 'Challenge a friend' },
+  sendBack: { ta: 'உங்கள் முடிவைத் திருப்பி அனுப்பு', en: 'Send your score back' },
+  linkCopied: { ta: 'இணைப்பு நகலெடுக்கப்பட்டது!', en: 'Link copied!' },
+  yourName: { ta: 'உங்கள் பெயர்', en: 'Your name' },
+  namePrompt: {
+    ta: 'சவால் இணைப்பில் உங்கள் நண்பர் காணும் பெயர்',
+    en: 'The name your friend will see on the challenge',
+  },
+  save: { ta: 'சேமி', en: 'Save' },
+  challengedYou: { ta: 'உங்களுக்குச் சவால் விட்டுள்ளார்', en: 'challenged you' },
+  challengeToday: {
+    ta: 'இன்றைய மூழ்கலை விளையாடி ஒப்பிடுங்கள்!',
+    en: "Play today's dive to compare!",
+  },
+  challengeOld: {
+    ta: 'இந்தச் சவால் முந்தைய மூழ்கலுக்கானது. மதிப்பெண் சேமிக்கப்பட்டது.',
+    en: 'This challenge was for an earlier dive. Their score is saved.',
+  },
+  acceptChallenge: { ta: 'சவாலை ஏற்று மூழ்கு', en: 'Accept and dive' },
+  youWin: { ta: 'நீங்கள் வென்றீர்கள்!', en: 'You win!' },
+  youLose: { ta: 'இந்த முறை தோல்வி', en: 'They win this one' },
+  itsDraw: { ta: 'சமன்!', en: "It's a draw!" },
+  versus: { ta: 'எதிர்', en: 'vs' },
+  challengeText: {
+    ta: 'கிரில்லியன் தமிழில் என் ஆழத்தைத் தாண்ட முடியுமா?',
+    en: 'Can you dive deeper than me in Krillion Tamil?',
+  },
+  egg_night: { ta: 'இரவு மெரினா 🌙 கலங்கரை விளக்கம் விழித்தது!', en: 'Marina at night 🌙 The lighthouse is awake!' },
+  egg_lighthouse: { ta: 'கலங்கரை விளக்கம் ஒளிர்கிறது! ✨', en: 'You lit the lighthouse! ✨' },
+  egg_sundal: { ta: 'சுண்டல், சுண்டல்! 🥜 சுண்டல் வண்டி வந்தது', en: 'Sundal, sundal! 🥜 The sundal cart has arrived' },
+  egg_whistle: { ta: 'விசில் போடு! 🦁💛', en: 'Whistle podu! 🦁💛' },
+  egg_neithal: {
+    ta: 'நெய்தல்: கடலும் கடல் சார்ந்த இடமும். மெரினாவின் திணை இதுதான் 🌊',
+    en: "Neithal: the seashore landscape. That's Marina's thinai 🌊",
+  },
+  egg_kattumaram: { ta: 'கட்டுமரம் கடலுக்குப் புறப்பட்டது ⛵', en: 'A kattumaram sets sail ⛵' },
+  egg_crore: { ta: 'கோடியில் ஒருவன்! முழு 7,000 மீ 💎', en: 'One in a crore! The full 7,000 m 💎' },
 } satisfies Record<string, Record<Lang, string>>
 
 export type StringKey = keyof typeof STRINGS

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type FormEvent } from 'react'
 import type { Prompt } from '../data/types'
 import { useLang } from '../i18n'
 import { deeperAnswers, scoreRound, totalPoints, type RoundResult } from '../lib/game'
+import { play, playTier } from '../lib/sound'
 import { SECONDS_PER_ROUND, depthFor } from '../lib/tiers'
 import { useCountdown } from '../lib/useCountdown'
 import { DepthGauge } from './DepthGauge'
@@ -10,9 +11,11 @@ import { TierBadge } from './TierBadge'
 interface Props {
   prompts: Prompt[]
   onFinish: (results: RoundResult[]) => void
+  /** Called once per round with what was typed, for easter eggs. */
+  onRound?: (prompt: Prompt, result: RoundResult) => void
 }
 
-export function Game({ prompts, onFinish }: Props) {
+export function Game({ prompts, onFinish, onRound }: Props) {
   const { t, pick } = useLang()
   const [index, setIndex] = useState(0)
   const [results, setResults] = useState<RoundResult[]>([])
@@ -26,7 +29,11 @@ export function Game({ prompts, onFinish }: Props) {
   const isLast = index === prompts.length - 1
 
   function resolve(next: RoundResult) {
+    if (results.length > index) return
     setResults((prev) => (prev.length > index ? prev : [...prev, next]))
+    if (next.tier) playTier(next.tier)
+    else play(next.status === 'timeout' ? 'timeout' : 'miss')
+    onRound?.(prompt, next)
   }
 
   useEffect(() => {
@@ -56,6 +63,10 @@ export function Game({ prompts, onFinish }: Props) {
   }
 
   const seconds = Math.ceil(remainingMs / 1000)
+
+  useEffect(() => {
+    if (!result && seconds <= 5 && seconds > 0) play('tick')
+  }, [seconds, result])
   const depth = depthFor(totalPoints(results))
 
   return (

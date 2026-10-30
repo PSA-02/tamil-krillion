@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { PROMPTS } from '../data/prompts'
 import { addDays, dailyPrompts, dateKey, diveNumber, LAUNCH_DATE } from './daily'
 import { ROUNDS } from './tiers'
 
@@ -37,5 +38,29 @@ describe('dailyPrompts', () => {
   it('changes from day to day', () => {
     const days = Array.from({ length: 10 }, (_, i) => dailyPrompts(addDays(LAUNCH_DATE, i)).map((p) => p.id).join())
     expect(new Set(days).size).toBeGreaterThan(5)
+  })
+})
+
+describe('daily schedule', () => {
+  const days = Array.from({ length: 400 }, (_, i) => dailyPrompts(addDays(LAUNCH_DATE, i)).map((p) => p.id))
+
+  it('never repeats a prompt within the same day', () => {
+    for (const ids of days) expect(new Set(ids).size).toBe(ROUNDS)
+  })
+
+  it('keeps every prompt away for at least three days', () => {
+    const lastSeen = new Map<string, number>()
+    days.forEach((ids, day) => {
+      for (const id of ids) {
+        const previous = lastSeen.get(id)
+        if (previous !== undefined) expect(day - previous, `${id} on days ${previous} and ${day}`).toBeGreaterThanOrEqual(3)
+        lastSeen.set(id, day)
+      }
+    })
+  })
+
+  it('uses every prompt in the pool within the first deck', () => {
+    const firstDeck = new Set(days.slice(0, Math.ceil(PROMPTS.length / ROUNDS)).flat())
+    expect(firstDeck.size).toBe(PROMPTS.length)
   })
 })

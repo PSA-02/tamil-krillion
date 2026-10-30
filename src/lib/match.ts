@@ -38,8 +38,8 @@ export function latinKey(input: string): string {
   let key = input
     .toLowerCase()
     .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
-    .replace(/[^a-z]/g, '')
+    .replace(/[\u0300-\u036F]/g, '')
+    .replace(/[^a-z0-9]/g, '')
   for (const [pattern, replacement] of LATIN_RULES) {
     key = key.replace(pattern, replacement)
   }

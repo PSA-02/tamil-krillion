@@ -58,6 +58,36 @@ export function pickPrompts(random: () => number, pool: Prompt[] = PROMPTS, coun
   return shuffled.slice(0, count)
 }
 
+/**
+ * The daily schedule deals prompts like cards: each deck is a seeded shuffle
+ * of the whole pool, and days take ROUNDS cards at a time from deck after
+ * deck. Within a deck nothing repeats. Where two decks meet, prompts dealt
+ * near the end of one deck are moved to the end of the next, so a prompt
+ * never comes back within about half a deck.
+ */
+export function buildDecks(count: number, pool: Prompt[] = PROMPTS): Prompt[][] {
+  const gap = Math.floor(pool.length / 2)
+  const decks: Prompt[][] = []
+  for (let i = 0; i < count; i++) {
+    const shuffled = pickPrompts(seededRandom(hashString(`krillion-tamil:deck:${i}`)), pool, pool.length)
+    const recent = new Set(i > 0 ? decks[i - 1].slice(-gap) : [])
+    decks.push([...shuffled.filter((p) => !recent.has(p)), ...shuffled.filter((p) => recent.has(p))])
+  }
+  return decks
+}
+
+let dealt: Prompt[] = []
+
+function dealUpTo(length: number): Prompt[] {
+  if (dealt.length < length) {
+    const decks = Math.ceil(length / PROMPTS.length) + 1
+    dealt = buildDecks(decks).flat()
+  }
+  return dealt
+}
+
 export function dailyPrompts(key: string): Prompt[] {
-  return pickPrompts(seededRandom(hashString(`krillion-tamil:${key}`)))
+  const day = Math.abs(diveNumber(key) - 1)
+  const start = day * ROUNDS
+  return dealUpTo(start + ROUNDS).slice(start, start + ROUNDS)
 }

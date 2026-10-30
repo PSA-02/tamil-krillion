@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
-import { keysFor } from '../lib/match'
-import { ROUNDS } from '../lib/tiers'
-import { PROMPTS } from './prompts'
+import { keysFor } from '../../lib/match'
+import { ROUNDS } from '../../lib/tiers'
+import { PROMPTS } from '.'
 
 describe('prompt data', () => {
   it('has enough prompts for a dive', () => {

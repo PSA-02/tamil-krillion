@@ -1,4 +1,6 @@
 import { addDays } from './daily'
+import type { Rival } from './duel'
+import type { EggId } from './eggs'
 import type { RoundResult } from './game'
 
 export interface DailyRecord {
@@ -17,6 +19,9 @@ export interface Stats {
 
 const STATS_KEY = 'krillion-tamil:stats'
 const LANG_KEY = 'krillion-tamil:lang'
+const NAME_KEY = 'krillion-tamil:name'
+const RIVALS_KEY = 'krillion-tamil:rivals'
+const EGGS_KEY = 'krillion-tamil:eggs'
 
 export const EMPTY_STATS: Stats = {
   played: 0,
@@ -84,4 +89,38 @@ export function loadLang(): 'ta' | 'en' {
 
 export function saveLang(lang: 'ta' | 'en'): void {
   write(LANG_KEY, lang)
+}
+
+function readJson<T>(key: string, fallback: T): T {
+  const raw = read(key)
+  if (!raw) return fallback
+  try {
+    return JSON.parse(raw) as T
+  } catch {
+    return fallback
+  }
+}
+
+export function loadName(): string {
+  return read(NAME_KEY) ?? ''
+}
+
+export function saveName(name: string): void {
+  write(NAME_KEY, name)
+}
+
+export function loadRivals(): Record<string, Rival> {
+  return readJson<Record<string, Rival>>(RIVALS_KEY, {})
+}
+
+export function saveRivals(rivals: Record<string, Rival>): void {
+  write(RIVALS_KEY, JSON.stringify(rivals))
+}
+
+export function loadEggs(): EggId[] {
+  return readJson<EggId[]>(EGGS_KEY, [])
+}
+
+export function saveEggs(eggs: EggId[]): void {
+  write(EGGS_KEY, JSON.stringify(eggs))
 }
